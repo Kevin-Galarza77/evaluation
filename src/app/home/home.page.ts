@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { estudiante } from './estudiante';
 import { EstudiantesService } from '../services/estudiantes.service';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateComponent } from './create/create.component';
 
@@ -20,9 +20,10 @@ export class HomePage implements OnInit {
     private estudianteService: EstudiantesService,
     private loadingController: LoadingController,
     public dialog: MatDialog,
+    private alertController: AlertController,
     private router: Router) {
 
-     }
+  }
 
   async logout() {
     await this.authService.logout();
@@ -31,7 +32,6 @@ export class HomePage implements OnInit {
 
   ngOnInit(): void {
     this.getTodosEstudiantes();
-    this.createStudent();
   }
 
   async getTodosEstudiantes() {
@@ -42,14 +42,14 @@ export class HomePage implements OnInit {
         this.estudiantes = result;
         await loading.dismiss();
       },
-      error:async e =>{
+      error: async e => {
         console.log(e);
         await loading.dismiss();
       }
     })
   }
 
-  createStudent(){
+  createStudent() {
     const newProduct = this.dialog.open(CreateComponent, {
       height: 'auto',
       maxHeight: '95vh',
@@ -61,5 +61,38 @@ export class HomePage implements OnInit {
     })
   }
 
+  updateStudent(estudent: estudiante) {
+    const newProduct = this.dialog.open(CreateComponent, {
+      height: 'auto',
+      maxHeight: '95vh',
+      width: '50%',
+      minWidth: '300px',
+      data: estudent
+    });
+    newProduct.afterClosed().subscribe(response => {
+      if (response) this.getTodosEstudiantes();
+    })
+  }
+
+  async deleteStudent(id:any){
+    const loading = await this.loadingController.create();
+    await loading.present();
+    this.estudianteService.deleteStudent(id).then(
+      async () => {
+        this.showAlert('Estudiante eliminado', 'Exitosamente!!');
+        await loading.dismiss();
+        this.getTodosEstudiantes();
+      }
+    ).catch(async e => { await loading.dismiss(); console.log(e); this.showAlert('Hubo un error', 'Fracaso!!'); });
+  }
+
+  async showAlert(header: any, message: any) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
 
 }

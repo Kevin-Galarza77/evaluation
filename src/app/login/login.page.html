@@ -8,13 +8,13 @@
   <div class="d-flex h-100 justify-content-center align-items-center flex-column m-5">
     <form [formGroup]="loginForm" (ngSubmit)="login()" class="w-100">
       <div class="row">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="example-full-width" appearance="outline">
           <mat-label>Email</mat-label>
           <input type="email" formControlName="email" matInput placeholder="Ex. pat@example.com" required>
         </mat-form-field>
       </div>
       <div class="row">
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>Enter your password</mat-label>
           <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
           <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
