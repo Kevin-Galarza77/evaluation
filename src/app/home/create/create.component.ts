@@ -42,13 +42,14 @@ export class CreateComponent implements OnInit {
       if (this.section) {
         const loading = await this.loadingController.create();
         await loading.present();
+        this.user.notas.total = (this.user.notas.nota_1 * 0.20 + this.user.notas.nota_2 * 0.20 + this.user.notas.nota_3 * 0.20 + this.user.notas.nota_4 * 0.10 + this.user.notas.nota_5 * 0.30);
         this.dialogref.close(true);
         this.estudianteService.createEstudiante(this.user).then(
           async () => {
             this.showAlert('Estudiante creado', 'Exitosamente!!');
             await loading.dismiss();
           }
-        ).catch(async e => { await loading.dismiss(); console.log(e);this.showAlert('Hubo un error', 'Fracaso!!'); });
+        ).catch(async e => { await loading.dismiss(); console.log(e); this.showAlert('Hubo un error', 'Fracaso!!'); });
       } else {
 
       }
