@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { HomePageRoutingModule } from './home-routing.module';
+import { CreateComponent } from './create/create.component';
 
 
 @NgModule({
@@ -12,8 +14,9 @@ import { HomePageRoutingModule } from './home-routing.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    MatDialogModule
   ],
-  declarations: [HomePage]
+  declarations: [HomePage,CreateComponent]
 })
 export class HomePageModule {}
