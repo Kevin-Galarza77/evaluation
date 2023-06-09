@@ -20,7 +20,9 @@ export class HomePage implements OnInit {
     private estudianteService: EstudiantesService,
     private loadingController: LoadingController,
     public dialog: MatDialog,
-    private router: Router) { }
+    private router: Router) {
+
+     }
 
   async logout() {
     await this.authService.logout();
@@ -29,6 +31,7 @@ export class HomePage implements OnInit {
 
   ngOnInit(): void {
     this.getTodosEstudiantes();
+    this.createStudent();
   }
 
   async getTodosEstudiantes() {
@@ -38,7 +41,10 @@ export class HomePage implements OnInit {
       next: async result => {
         this.estudiantes = result;
         await loading.dismiss();
-        console.log(this.estudiantes);
+      },
+      error:async e =>{
+        console.log(e);
+        await loading.dismiss();
       }
     })
   }
